@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+langchain
+chromadb
+pypdf
+python-docx
+pandas
+openpyxl
