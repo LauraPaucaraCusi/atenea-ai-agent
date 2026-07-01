@@ -1,0 +1,19 @@
+# Entorno Python
+venv/
+
+# Archivos Python temporales
+__pycache__/
+*.pyc
+
+# Bases de datos locales
+database/
+
+# Variables de entorno
+.env
+
+# Editor
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
