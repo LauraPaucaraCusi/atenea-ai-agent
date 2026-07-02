@@ -1,74 +1,103 @@
 from pathlib import Path
-import pandas as pd
 from pypdf import PdfReader
 from docx import Document
-
-
-def cargar_markdown(ruta):
-    archivo = Path(ruta)
-
-    return archivo.read_text(
-        encoding="utf-8"
-    )
-
-
-def cargar_pdf(ruta):
-    texto = ""
-
-    lector = PdfReader(ruta)
-
-    for pagina in lector.pages:
-        texto += pagina.extract_text()
-
-    return texto
-
-
-def cargar_word(ruta):
-
-    documento = Document(ruta)
-
-    texto = ""
-
-    for parrafo in documento.paragraphs:
-        texto += parrafo.text + "\n"
-
-    return texto
-
-
-def cargar_excel(ruta):
-
-    datos = pd.read_excel(ruta)
-
-    return datos.to_string()
+import pandas as pd
+import json
 
 
 def cargar_documento(ruta):
 
-    extension = Path(ruta).suffix.lower()
+    ruta = Path(ruta)
+
+    extension = ruta.suffix.lower()
+
 
     if extension == ".md":
-        return cargar_markdown(ruta)
 
-    if extension == ".pdf":
-        return cargar_pdf(ruta)
-
-    if extension == ".docx":
-        return cargar_word(ruta)
-
-    if extension in [".xlsx", ".xls"]:
-        return cargar_excel(ruta)
+        return ruta.read_text(
+            encoding="utf-8"
+        )
 
 
-    return "Formato no soportado"
+    elif extension == ".txt":
+
+        return ruta.read_text(
+            encoding="utf-8"
+        )
 
 
-if __name__ == "__main__":
+    elif extension == ".pdf":
 
-    archivo = (
-        "documents/recursos_humanos/"
-        "politica_vacaciones.md"
-    )
+        lector = PdfReader(ruta)
 
-    resultado = cargar_documento(archivo)
+        texto = ""
 
-    print(resultado)
+        for pagina in lector.pages:
+
+            contenido = pagina.extract_text()
+
+            if contenido:
+                texto += contenido + "\n"
+
+        return texto
+
+
+    elif extension == ".docx":
+
+        documento = Document(ruta)
+
+        texto = ""
+
+        for parrafo in documento.paragraphs:
+
+            texto += parrafo.text + "\n"
+
+        return texto
+
+
+    elif extension == ".xlsx":
+
+        excel = pd.read_excel(
+            ruta
+        )
+
+        return excel.to_string(index=False)
+
+
+    elif extension == ".csv":
+
+        csv = pd.read_csv(
+            ruta
+        )
+
+        return csv.to_string(index=False)
+
+
+    elif extension == ".json":
+
+        with open(
+            ruta,
+            encoding="utf-8"
+        ) as archivo:
+
+            datos = json.load(archivo)
+
+        return json.dumps(
+            datos,
+            indent=2,
+            ensure_ascii=False
+        )
+
+
+    elif extension == ".html":
+
+        return ruta.read_text(
+            encoding="utf-8"
+        )
+
+
+    else:
+
+        raise Exception(
+            f"Formato no soportado: {extension}"
+        )
