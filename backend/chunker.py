@@ -1,10 +1,28 @@
-def dividir_texto(texto, tamaño=500):
+from backend.config import (
+    CHUNK_SIZE,
+    CHUNK_OVERLAP
+)
+
+
+def dividir_texto(
+    texto,
+    tamaño=CHUNK_SIZE,
+    overlap=CHUNK_OVERLAP
+):
 
     fragmentos = []
 
-    for i in range(0, len(texto), tamaño):
-        fragmento = texto[i:i+tamaño]
-        fragmentos.append(fragmento)
+    inicio = 0
+
+    while inicio < len(texto):
+
+        fin = inicio + tamaño
+
+        fragmentos.append(
+            texto[inicio:fin]
+        )
+
+        inicio += tamaño - overlap
 
     return fragmentos
 
@@ -20,5 +38,7 @@ if __name__ == "__main__":
     partes = dividir_texto(texto)
 
     for numero, parte in enumerate(partes):
-        print("\n--- CHUNK", numero, "---")
+
+        print(f"\n----- CHUNK {numero} -----\n")
+
         print(parte)
