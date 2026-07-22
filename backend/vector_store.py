@@ -69,6 +69,10 @@ def buscar(pregunta):
         n_results=3
     )
 
+    print("\n========== METADATOS ==========")
+    print(resultado["metadatas"])
+    print("===============================\n")
+
     return resultado
 
 

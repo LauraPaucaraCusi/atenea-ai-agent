@@ -6,43 +6,52 @@ def responder(pregunta):
     resultado = buscar(pregunta)
 
     documentos = resultado["documents"][0]
-
     metadatos = resultado["metadatas"][0]
 
-    contexto = []
+    respuesta = []
 
-    fuentes = []
+    respuesta.append("=" * 60)
+    respuesta.append("ATENEA AI")
+    respuesta.append("=" * 60)
+    respuesta.append("")
+    respuesta.append(f"Pregunta: {pregunta}")
+    respuesta.append("")
+    respuesta.append(
+        f"Se encontraron {len(documentos)} documentos relacionados."
+    )
+    respuesta.append("")
 
     for documento, metadata in zip(documentos, metadatos):
 
-        contexto.append(documento)
+        respuesta.append("-" * 60)
 
-        archivo = metadata["archivo"]
+        respuesta.append(
+            f"Documento : {metadata['archivo']}"
+        )
 
-        if archivo not in fuentes:
-            fuentes.append(archivo)
+        respuesta.append(
+            f"Categoría : {metadata['categoria']}"
+        )
 
-    respuesta = (
-        "Respuesta basada en documentos internos de Soluciones Atenea.\n\n"
-    )
+        respuesta.append(
+            f"Chunk      : {metadata['chunk']}"
+        )
 
-    respuesta += "\n\n".join(contexto)
+        respuesta.append("")
+        respuesta.append("Contenido encontrado:")
+        respuesta.append("")
+        respuesta.append(documento)
+        respuesta.append("")
 
-    respuesta += "\n\nFuentes consultadas:\n"
+    respuesta.append("=" * 60)
 
-    for fuente in fuentes:
-
-        respuesta += f"- {fuente}\n"
-
-    return respuesta
+    return "\n".join(respuesta)
 
 
 if __name__ == "__main__":
 
     print(
-
         responder(
             "¿Cuándo debo solicitar vacaciones?"
         )
-
     )
