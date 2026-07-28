@@ -1,181 +1,215 @@
-# Atenea AI Agent
+# 🤖 Atenea AI Agent
 
-## Descripción
-
-Atenea AI Agent es un agente inteligente desarrollado como parte del Challenge de Alura + Oracle Next Education.
-
-El proyecto implementa una arquitectura **RAG (Retrieval-Augmented Generation)** para responder preguntas utilizando únicamente la información contenida en documentos internos de una empresa.
-
-La solución procesa documentos, los indexa mediante ChromaDB y permite consultar esa información a través de una API desarrollada con FastAPI.
+> Agente Inteligente con arquitectura **RAG (Retrieval-Augmented Generation)** desarrollado como parte del **Challenge Alura + Oracle Next Education**.
 
 ---
 
-# Objetivos
+## 📌 Descripción
 
-* Centralizar la documentación interna.
-* Facilitar la búsqueda de información.
-* Reducir los tiempos de consulta.
-* Evitar respuestas inventadas utilizando recuperación basada en documentos.
+Atenea AI Agent es un asistente inteligente capaz de responder preguntas utilizando únicamente la información contenida en documentos internos de una organización.
 
----
+La aplicación procesa documentos corporativos, los indexa mediante **ChromaDB** y permite realizar consultas a través de una API desarrollada con **FastAPI**.
 
-# Arquitectura
-
-Usuario
-
-↓
-
-FastAPI
-
-↓
-
-Agente (agent.py)
-
-↓
-
-Búsqueda Vectorial (ChromaDB)
-
-↓
-
-Documentos Indexados
-
-↓
-
-Respuesta
+Su objetivo es proporcionar respuestas precisas basadas en evidencia documental, evitando generar información que no exista en la base de conocimiento.
 
 ---
 
-# Tecnologías utilizadas
+# 🚀 Aplicación desplegada
 
-* Python 3
-* FastAPI
-* ChromaDB
-* LangChain
-* Uvicorn
-* Pandas
-* OpenPyXL
-* Python-docx
-* PyPDF
+**Deploy en Render**
+
+🔗 https://atenea-ai-agent.onrender.com
+
+Documentación de la API:
+
+🔗 https://atenea-ai-agent.onrender.com/docs
 
 ---
 
-# Estructura del proyecto
+# 🏗 Arquitectura
 
 ```text
-atenea-ai-agent/
-
-backend/
-    agent.py
-    vector_store.py
-    loaders.py
-    chunker.py
-    utils.py
-    config.py
-    main.py
-
-documents/
-    comercial/
-    financiero/
-    legal/
-    operaciones/
-    recursos_humanos/
-    tecnologia/
-
-database/
-
-README.md
-requirements.txt
+                Usuario
+                   │
+                   ▼
+             FastAPI (API)
+                   │
+                   ▼
+             Atenea AI Agent
+                   │
+                   ▼
+       Búsqueda Vectorial (ChromaDB)
+                   │
+                   ▼
+      Documentos Indexados (RAG)
+                   │
+                   ▼
+              Respuesta Final
 ```
 
 ---
 
-# Flujo del sistema
+# ⚙️ Tecnologías utilizadas
+
+- Python 3
+- FastAPI
+- Uvicorn
+- ChromaDB
+- LangChain
+- Pandas
+- OpenPyXL
+- PyPDF
+- python-docx
+
+---
+
+# 📂 Estructura del proyecto
+
+```text
+atenea-ai-agent/
+
+│
+├── backend/
+│   ├── agent.py
+│   ├── chunker.py
+│   ├── config.py
+│   ├── loaders.py
+│   ├── main.py
+│   ├── utils.py
+│   └── vector_store.py
+│
+├── documents/
+│   ├── comercial/
+│   ├── financiero/
+│   ├── legal/
+│   ├── operaciones/
+│   ├── recursos_humanos/
+│   └── tecnologia/
+│
+├── database/
+│
+├── images/
+│
+├── README.md
+└── requirements.txt
+```
+
+---
+
+# 🔄 Flujo del sistema
 
 1. Cargar documentos.
 2. Extraer el contenido.
 3. Dividir el texto en fragmentos (Chunks).
 4. Generar metadatos.
-5. Indexar en ChromaDB.
+5. Indexar los documentos en ChromaDB.
 6. Recibir preguntas mediante FastAPI.
-7. Buscar documentos relacionados.
-8. Mostrar la respuesta.
+7. Buscar información relacionada.
+8. Generar la respuesta.
 
 ---
 
-# Ejemplos de preguntas
+# 💬 Ejemplos de preguntas
 
-* ¿Cuándo debo solicitar vacaciones?
-* ¿Qué beneficios tienen los colaboradores?
-* ¿Cuál es la política de compras?
-* ¿Cómo funciona el protocolo de emergencias?
-* ¿Cuál es la política de privacidad?
-
----
-
-# Ejemplo de respuesta
-
-Pregunta:
-
-¿Cuándo debo solicitar vacaciones?
-
-Respuesta:
-
-El agente identifica el documento **politica_vacaciones.md** y responde que las vacaciones deben solicitarse con al menos **15 días de anticipación**, indicando además el documento y la categoría desde donde obtuvo la información.
+- ¿Cuándo debo solicitar vacaciones?
+- ¿Qué beneficios tienen los colaboradores?
+- ¿Cuál es la política de compras?
+- ¿Cómo funciona el protocolo de emergencias?
+- ¿Cuál es la política de privacidad?
 
 ---
 
-# Cómo ejecutar el proyecto
+# ▶️ Instalación
 
-Crear el entorno virtual:
+Crear entorno virtual
 
 ```bash
 python -m venv venv
 ```
 
-Activar el entorno:
+Activar entorno
 
-Windows
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-Instalar dependencias:
+Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Indexar documentos:
+Indexar documentos
 
 ```bash
 python -m backend.vector_store
 ```
 
-Ejecutar la API:
+Ejecutar la API
 
 ```bash
 uvicorn backend.main:app --reload
 ```
 
-Abrir la documentación:
+Abrir documentación
 
-```text
+```
 http://127.0.0.1:8000/docs
 ```
 
 ---
 
-# Resultado
+# 📸 Evidencias del proyecto
 
-El agente responde consultas utilizando únicamente la información almacenada en los documentos indexados, devolviendo además la fuente de donde obtuvo la información.
+## 🌐 Aplicación desplegada en Render
+
+![Render](images/render-live.png)
 
 ---
 
-# Autor
+## 🏠 Página principal
 
-Laura Daniela Paucara Cusi
+![Inicio](images/inicio-render.png)
+
+---
+
+## 📖 Documentación de la API
+
+![Swagger](images/swagger.png)
+
+---
+
+## 🤖 Ejemplo de consulta
+
+Pregunta:
+
+> ¿Cuándo debo solicitar vacaciones?
+
+![Consulta](images/pregunta-vacaciones.png)
+
+---
+
+# ✅ Resultado
+
+El agente responde preguntas utilizando únicamente la información almacenada en los documentos indexados.
+
+Cada respuesta incluye:
+
+- Documento consultado.
+- Categoría.
+- Fragmento encontrado.
+- Contenido relacionado.
+
+Esto demuestra el funcionamiento de una arquitectura **RAG**, donde la información se recupera desde una base documental antes de generar la respuesta.
+
+---
+
+# 👩‍💻 Autor
+
+**Laura Daniela Paucara Cusi**
 
 Ingeniera en Metalurgia
 
-Challenge Alura + Oracle Next Education
+Challenge **Alura + Oracle Next Education**
